@@ -1,0 +1,32 @@
+.burger__button {
+  display: none;
+  width: 42px;
+  height: 42px;
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.burger__image {
+  size: 100%;
+}
+
+@media screen and (max-width: 1023px) {
+  .burger__button {
+    position: fixed;
+    right: 18px;
+    top: 18px;
+    display: block;
+    z-index: 2;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .burger__button {
+    right: 8px;
+    top: 8px;
+  }
+}

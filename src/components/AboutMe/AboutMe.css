@@ -1,0 +1,149 @@
+.about-me {
+  max-width: 89%;
+  margin: 0 auto;
+}
+
+.about-me__container {
+  display: flex;
+  justify-content: space-between;
+  margin: 66px 0 100px;
+  column-gap: 40px;  
+}
+
+.about-me__information {
+  display: grid;
+  grid-template-columns: minmax(min-content, 600px);
+  grid-template-rows: 76px 46px 1fr 1fr;
+}
+
+.about-me__subtitle {
+  margin: 0;
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.16;
+}
+
+.about-me__description {
+  margin: 0;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.about-me__text {
+  margin: 0;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.about-me__link {
+  margin: 0;
+  align-self: end;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  color: #fff;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.about-me__link:hover {
+  opacity: 0.7;
+}
+
+.about-me__photo {
+  width: auto;
+  max-height: 327px;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 1023px) {
+  .about-me {
+    max-width: 87%;
+  }
+
+  .about-me__container {
+    margin: 66px 0 90px;
+  }
+
+  .about-me__information {
+    grid-template-columns: minmax(min-content, 364px);
+    grid-template-rows: 56px 38px 1fr 1fr;
+  }
+
+  .about-me__subtitle {
+    font-size: 40px;
+    line-height: 1;
+  }
+
+  .about-me__description {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .about-me__text {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .about-me__photo {
+    max-height: 307px;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .about-me {
+    max-width: 89%;
+  }
+
+  .about-me__container {
+    margin: 60px 0 70px;
+    flex-direction: column-reverse;
+    align-items: center;
+    row-gap: 40px;
+  }
+
+  .about-me__information {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+  }
+
+  .about-me__text {
+    margin-bottom: 20px;
+  }
+
+  .about-me__link {
+    align-self: start;
+  }
+
+  .about-me__photo {
+    max-height: 352px;
+    max-width: 292px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .about-me__subtitle {
+    font-size: 30px;
+    line-height: 1.2;
+  }
+
+  .about-me__description {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .about-me__text {
+    font-size: 11px;
+    line-height: 1.4;
+    margin-bottom: 26px;
+  }
+
+}

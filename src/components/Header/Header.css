@@ -1,0 +1,18 @@
+.header {
+  max-width: 89%;
+  margin: 0 auto;
+  height: 74px;
+}
+
+@media screen and (max-width: 1023px) {
+  .header {
+    max-width: 92%;
+    position: relative;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .header {
+    max-width: 91%;
+  }
+}
