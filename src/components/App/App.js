@@ -13,7 +13,7 @@ import Register from "../Register/Register";
 import Login from "../Login/Login";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isBurgerOpened, setIsBurgerOpened] = useState(false);
 
   function onClickBurger() {
@@ -35,9 +35,36 @@ function App() {
               />
             }
           />
-          <Route path="/movies" element={<Movies />} />
-          <Route path="/saved-movies" element={<SavedMovies />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/movies"
+            element={
+              <Movies
+                isLoggedIn={isLoggedIn}
+                onClickBurger={onClickBurger}
+                isBurgerOpened={isBurgerOpened}
+              />
+            }
+          />
+          <Route
+            path="/saved-movies"
+            element={
+              <SavedMovies
+                isLoggedIn={isLoggedIn}
+                onClickBurger={onClickBurger}
+                isBurgerOpened={isBurgerOpened}
+              />
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <Profile
+                isLoggedIn={isLoggedIn}
+                onClickBurger={onClickBurger}
+                isBurgerOpened={isBurgerOpened}
+              />
+            }
+          />
           <Route path="/signin" element={<Login />} />
           <Route path="/signup" element={<Register />} />
         </Routes>
