@@ -1,22 +1,22 @@
 .burger__button {
   display: none;
   visibility: hidden;
-  width: 42px;
-  height: 42px;
   background: none;
   border: none;
   padding: 0;
 }
 
 .burger__image {
-  size: 100%;
+  width: 50px;
+  height: 50px;
+  /* margin-right: 10px; */
 }
 
 @media screen and (max-width: 1023px) {
   .burger__button {
     position: fixed;
-    right: 18px;
-    top: 18px;
+    right: 28px;
+    top: 12px;
     display: flex;
     visibility: visible;
     align-items: center;
@@ -27,7 +27,12 @@
 
 @media screen and (max-width: 425px) {
   .burger__button {
-    right: 8px;
-    top: 8px;
+    right: 2px;
+    top: 14px;
+  }
+
+  .burger__image {
+    width: 44px;
+    height: 44px;
   }
 }

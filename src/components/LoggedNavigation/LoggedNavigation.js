@@ -17,7 +17,7 @@ function LoggedNavigation({ onClickBurger, isBurgerOpened }) {
       <Link to="/" className={`loggedNav__link loggedNav__link_position_${
         isBurgerOpened ? "covered" : "naked"
       }`}>
-        <img src={logo} alt="Логотип" className="loggedNav__logo" />
+        <img src={logo} alt="Логотип." className="loggedNav__logo" />
         <div className={`loggedNav__overlay loggedNav__overlay_${
         isBurgerOpened ? "active" : undefined
       }`}></div>
