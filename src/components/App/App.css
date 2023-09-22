@@ -29,6 +29,11 @@ html {
   max-width: 1280px;
 }
 
+input:-webkit-autofill {
+  transition: all 9999s;
+  transition-delay: 9999s;
+}
+
 .title {
   margin: 0;
   font-size: 22px;
