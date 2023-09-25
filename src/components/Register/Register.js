@@ -13,10 +13,12 @@ function Register() {
             name="name"
             className="sign__input"
             id="sign-name"
-            placeholder=""
-            value=""
+            placeholder="Имя"
+            defaultValue=""
             type="text"
             required
+            minLength="2"
+            maxLength="40"
           />
           <span className="sign__input-error name-error"></span>
         </label>

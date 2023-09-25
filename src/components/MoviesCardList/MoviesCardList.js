@@ -11,7 +11,7 @@ function MoviesCardList() {
     <section className="movies-list">
       <ul className="movies-list__list">
         {movies.map((movie) => (
-          <MoviesCard key={movie.id || movie._id} movie={movie} />
+          <MoviesCard key={movie.movieId} movie={movie} />
         ))}
       </ul>
       {location.pathname === "/movies" && (

@@ -1,4 +1,4 @@
-.nav-tab {
+.nav-tab__list {
   list-style-type: none;
   display: flex;
   column-gap: 10px;

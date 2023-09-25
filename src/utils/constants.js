@@ -9,7 +9,7 @@ const Movies = [
     trailerLink: "https://ya.ru/av.bmp",
     thumbnail: "https://ya.ru/av.bmp",
     owner: "64e604d0925beabec8147d06",
-    movieId: 1,
+    movieId: 3,
     nameRU: "Школа",
     nameEN: "School",
   },

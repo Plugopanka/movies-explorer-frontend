@@ -13,7 +13,8 @@ function SearchForm() {
               id="search-input"
               type="text"
               placeholder="Фильм"
-              value=""
+              defaultValue=""
+              required
             />
             <span className="search__error"></span>
           </label>

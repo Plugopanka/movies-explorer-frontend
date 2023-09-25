@@ -10,7 +10,7 @@ function Burger({ isBurgerOpened, onClickBurger }) {
   return (
     <button
       type="button"
-      className={`burger__button burger__button_${
+      className={`burger burger_${
         !isBurgerOpened ? 'open' : 'close'
       }`}
       onClick={handleOnClickBurger}

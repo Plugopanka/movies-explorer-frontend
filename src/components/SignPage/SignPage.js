@@ -19,8 +19,8 @@ function SignPage({ buttonText, title, inputChildren, linkChildren }) {
                 name="email"
                 className="sign__input"
                 id="sign-email"
-                placeholder=""
-                value=""
+                placeholder="E-mail"
+                defaultValue=""
                 type="email"
                 required
               />
@@ -32,10 +32,12 @@ function SignPage({ buttonText, title, inputChildren, linkChildren }) {
                 name="password"
                 className="sign__input"
                 id="sign-password"
-                placeholder=""
-                value=""
+                placeholder="Пароль"
+                defaultValue=""
                 type="password"
                 required
+                minLength="2"
+                maxLength="40"
               />
               <span className="sign__input-error password-error">
                 Что-то пошло не так...

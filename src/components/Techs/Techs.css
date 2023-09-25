@@ -18,6 +18,7 @@
   font-style: normal;
   font-weight: 400;
   line-height: 1.16;
+  letter-spacing: -2px;
 }
 
 .techs__text {
@@ -28,6 +29,7 @@
   font-style: normal;
   font-weight: 400;
   line-height: 1.4;
+  letter-spacing: -0.56px;
 }
 
 .techs__list {
@@ -47,6 +49,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 1.2;
+  letter-spacing: -0.56px;
   color: #fff;
   background: #303030;
   width: 90px;

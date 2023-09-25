@@ -1,16 +1,17 @@
 .not-found-page {
   position: relative;
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   height: 100vh;
   flex-direction: column;
 }
 
 .not-found-page__container {
+  height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   row-gap: 5px;
 }
 
@@ -33,9 +34,7 @@
 }
 
 .not-found-page__button {
-  position: fixed;
-  bottom: 8%;
-  padding: 0;
+  padding: 0 0 60px;
   color: #4285f4;
   text-align: center;
   font-size: 14px;
@@ -55,7 +54,7 @@
 
 @media screen and (max-width: 1023px) {
   .not-found-page__button {
-    bottom: 22%;
+    padding: 0 0 222px;
   }
 }
 
@@ -74,6 +73,6 @@
 
   .not-found-page__button {
     font-size: 12px;
-    bottom: 4%;
+    padding: 0 0 30px;
   }
 }

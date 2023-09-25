@@ -18,7 +18,7 @@
   height: 14px;
   position: relative;
   vertical-align: middle;
-  transition: background 0.2s;
+  transition: 0.2s;
   cursor: pointer;
 }
 
@@ -26,6 +26,7 @@
 .filter__tumbler:after {
   content: "";
 }
+
 .filter__tumbler:before {
   display: block;
   background: #fff;
@@ -38,9 +39,11 @@
   left: 2px;
   transition: left 0.2s;
 }
-.filter:hover .filter__tumbler:before {
-  background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+
+.filter__tumbler:hover {
+opacity: 0.8;
 }
+
 .filter__checkbox:checked + .filter__tumbler {
   background: #2be080;
 }
