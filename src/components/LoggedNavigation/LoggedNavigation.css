@@ -1,0 +1,182 @@
+.loggedNav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 74px;
+}
+
+.loggedNav__list {
+  list-style-type: none;
+  display: flex;
+  row-gap: 28px;
+  column-gap: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+.loggedNav__list_opened {
+  flex-direction: column;
+}
+
+.loggedNav__link {
+  transition: 0.2s;
+  text-decoration: none;
+  color: #fff;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.4;
+  cursor: pointer;
+  z-index: 0;
+}
+
+.loggedNav__link:hover {
+  opacity: 0.7;
+}
+
+.active {
+  font-weight: 500;
+}
+
+.loggedNav__link_background_pale {
+  border-radius: 20px;
+  background: #313131;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.1;
+  width: 100px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+
+@media screen and (max-width: 768px) {
+  .loggedNav_opened {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    justify-content: flex-end;
+    transition: 0.2s;
+    z-index: 1;
+  }
+
+  .loggedNav_closed {
+    position: static;
+  }
+
+  .loggedNav__list {
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    width: 68%;
+    background-color: #202020;
+  }
+
+  .loggedNav__list_opened {
+    right: 0;
+    visibility: visible;
+    align-items: center;
+    padding-top: 159px;
+  }
+
+  .loggedNav__list_closed {
+    right: -100%;
+    visibility: hidden;
+    display: none;
+  }
+
+  .loggedNav__link {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .active {
+    border-bottom: solid 2px #fff;
+    padding-bottom: 4px;
+    box-sizing: border-box;
+  }
+
+  .loggedNav__link_able {
+    position: fixed;
+    right: 26%;
+    bottom: 60px;
+    visibility: visible;
+    display: flex;
+  }
+
+  .loggedNav__link_disable {
+    visibility: hidden;
+    display: none;
+  }
+
+  .loggedNav__link_position_covered {
+    position: fixed;
+    left: 4%;
+    top: 2%;
+    pointer-events: none;
+    cursor: default;
+    width: 38px;
+    height: 38px;
+  }
+
+  .loggedNav__overlay {
+    display: none;
+    visibility: hidden;
+    position: fixed;
+    left: 4%;
+    top: 2%;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .loggedNav__overlay_active {
+    display: block;
+    visibility: visible;
+  }
+
+  .loggedNav__link_position_naked {
+    position: relative;
+    width: 38px;
+    height: 38px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .loggedNav__list {
+    width: 100%;
+    padding-top: 144px;
+    row-gap: 24px;
+  }
+
+  .loggedNav__link {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .active {
+    padding-bottom: 7px;
+  }
+
+  .loggedNav__link_background_pale {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.1;
+  }
+
+  .loggedNav__link_able {
+    right: 35%;
+    bottom: 262px;
+  }
+}

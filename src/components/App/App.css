@@ -1,0 +1,64 @@
+html {
+  scroll-behavior: smooth;
+}
+
+.root {
+  margin: 0 auto;
+  width: 100%;
+  background: #202020;
+  min-height: 100vh;
+}
+
+.page {
+  /* сглаживание текста */
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+
+  /* масштаб текста */
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+
+  /* читаемость */
+  text-rendering: optimizeLegibility;
+
+  font-family: "Inter", Helvetica, sans-serif;
+  color: #fff;
+  margin: 0 auto;
+  min-width: 320px;
+  max-width: 1280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input:-webkit-autofill {
+  transition: all 9999s;
+  transition-delay: 9999s;
+}
+
+.title {
+  margin: 0;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.88px;
+  width: 100%;
+  padding: 110px 0 23px;
+  border-bottom: 1px solid #dadada;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 1023px) {
+  .title {
+    padding: 90px 0 23px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .title {
+    padding: 70px 0 28px;
+    font-size: 18px;
+  }
+}
