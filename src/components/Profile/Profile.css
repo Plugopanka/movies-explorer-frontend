@@ -67,6 +67,10 @@
   color: #8b8b8b;
 }
 
+.profile__input_state_error {
+  color: #ee3465;
+}
+
 .profile__input-error {
   display: none;
   visibility: hidden;

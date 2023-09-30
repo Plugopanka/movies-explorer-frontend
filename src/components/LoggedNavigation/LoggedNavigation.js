@@ -57,7 +57,7 @@ function LoggedNavigation({ onClickBurger, isBurgerOpened }) {
           <NavLink
             to="/saved-movies"
             className="loggedNav__link"
-            activeClassName="loggedNav__link_active"
+            activeclassname="loggedNav__link_active"
           >
             Сохранённые фильмы
           </NavLink>

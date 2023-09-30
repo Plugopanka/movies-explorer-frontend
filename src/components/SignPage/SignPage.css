@@ -83,16 +83,22 @@
 }
 
 .sign__input:focus {
-  outline: 1px solid #3DDC84;
+  outline: 1px solid #3ddc84;
+}
+
+.sign__input:focus:invalid {
+  outline: 1px solid #ee3465;
 }
 
 .sign__input::placeholder {
   color: #8b8b8b;
 }
 
+.sign__input:invalid {
+  color: #ee3465;
+}
+
 .sign__input-error {
-  display: none;
-  visibility: hidden;
   color: #ee3465;
   font-size: 10px;
   font-style: normal;
@@ -131,6 +137,12 @@
   opacity: 0.8;
 }
 
+.sign__button_disabled {
+  cursor: default;
+  color: #000;
+  background: #F8F8F8;
+}
+
 .sign__link-text {
   text-align: center;
   margin: 16px 0 0;
@@ -145,7 +157,6 @@
   .sign__form {
     width: 260px;
     align-items: center;
-    
   }
 
   .sign__logo {
