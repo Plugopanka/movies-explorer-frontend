@@ -2,8 +2,8 @@ export const BASE_URL = "http://localhost:4000";
 // export const BASE_URL = "https://api.plugopanka.nomoredomainsicu.ru";
 // export const FRONT_URL = "https://plugopanka.nomoredomainsicu.ru";
 
-export const NAME_REGEX = "^[a-zA-Zа-яА-Я\s\-]+$";
-export const EMAIL_REGEX = "/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/"
+export const NAME_REGEX = "^[A-Za-zА-Яа-яЁё\\-\\s]+$";
+export const EMAIL_REGEX = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
 
 export const Movies = [
   {

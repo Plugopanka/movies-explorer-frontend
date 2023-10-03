@@ -33,13 +33,11 @@ function SignPage({
               <span className="sign__text">E-mail</span>
               <input
                 name="email"
-                className={`sign__input ${
-                  formError.email && "sign__input_state_error"
-                }`}
+                className={`sign__input`}
                 id="sign-email"
                 placeholder="E-mail"
                 type="email"
-                value={formValue.email}
+                value={formValue.email || ""}
                 onChange={onChange}
                 required
                 pattern={EMAIL_REGEX}
@@ -52,13 +50,11 @@ function SignPage({
               <span className="sign__text">Пароль</span>
               <input
                 name="password"
-                className={`sign__input ${
-                  formError.password && "sign__input_state_error"
-                }`}
+                className={`sign__input`}
                 id="sign-password"
                 placeholder="Пароль"
                 type="password"
-                value={formValue.password}
+                value={formValue.password || ""}
                 onChange={onChange}
                 required
                 minLength="2"

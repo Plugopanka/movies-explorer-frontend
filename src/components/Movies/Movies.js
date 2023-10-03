@@ -8,7 +8,7 @@ function Movies({ isLoggedIn, onClickBurger, isBurgerOpened }) {
   return (
     <>
       <Header
-        isLoggedIn={isLoggedIn}
+        isLoggedIn={isLoggedIn = true}
         onClickBurger={onClickBurger}
         isBurgerOpened={isBurgerOpened}
       />

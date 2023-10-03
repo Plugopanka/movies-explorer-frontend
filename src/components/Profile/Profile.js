@@ -1,34 +1,62 @@
 import "./Profile.css";
 import Header from "../Header/Header";
-import { useNavigate } from "react-router-dom";
 import useForm from "../../hooks/formValidation";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { useEffect, useContext, useState } from "react";
+import { NAME_REGEX, EMAIL_REGEX } from "../../utils/constants";
 
 function Profile({
   isLoggedIn,
   onClickBurger,
   isBurgerOpened,
   handleLogout,
-  handleProfile,
+  handleProfileChange,
 }) {
-  const { values, handleChange, errors, isValid } = useForm();
+  const currentUser = useContext(CurrentUserContext);
 
-  const navigate = useNavigate();
+  const [isChangeButtonClicked, setIsChangeButtonClicked] = useState(false);
+
+  const { values, handleChange, errors, isValid, resetForm, setValues } =
+    useForm();
+
+  useEffect(() => {
+    setValues((userData) => ({
+      ...userData,
+      name: currentUser.name,
+      email: currentUser.email,
+    }));
+  }, [currentUser, setValues]);
+
+  useEffect(() => {
+    resetForm(currentUser);
+  }, [currentUser, resetForm]);
+
+  const invalidForm =
+    !isValid ||
+    (currentUser.name === values.name && currentUser.email === values.email);
+
+  const handleClickChange = () => {
+    setIsChangeButtonClicked(true);
+  };
 
   function handleSubmit(e) {
     e.preventDefault();
-    handleProfile(values);
+    handleProfileChange(values);
+    setIsChangeButtonClicked(false);
   }
 
   return (
     <>
       <Header
-        isLoggedIn={isLoggedIn}
+        isLoggedIn={(isLoggedIn = true)}
         onClickBurger={onClickBurger}
         isBurgerOpened={isBurgerOpened}
       />
       <main className="profile">
         <section className="profile__container">
-          <h1 className="profile__title">Привет, Мария!</h1>
+          <h1 className="profile__title">{`Привет, ${
+            currentUser.name || "киноман"
+          }!`}</h1>
           <form
             className="profile__form"
             name="profile-form"
@@ -45,51 +73,78 @@ function Profile({
                   className="profile__input"
                   id="input-name"
                   placeholder="Имя"
+                  onChange={handleChange}
                   required
                   minLength="2"
                   maxLength="40"
+                  pattern={NAME_REGEX}
+                  disabled={!isChangeButtonClicked}
                 />
-                <span className=" profile__input-error name-error">
-                  {errors.name || ""}
-                </span>
               </label>
+              <span className=" profile__input-error name-error">
+                {errors.name}
+              </span>
               <label className="profile__label">
                 <span className="profile__text">E-mail</span>
                 <input
-                  value={values.name || ""}
+                  value={values.email || ""}
                   type="text"
                   name="email"
                   className="profile__input"
                   id="input-email"
                   placeholder="email"
+                  onChange={handleChange}
                   required
                   minLength="2"
                   maxLength="40"
+                  pattern={EMAIL_REGEX}
+                  disabled={!isChangeButtonClicked}
                 />
-                <span className=" profile__input-error email-error">
-                  {errors.email || ""}
-                </span>
               </label>
+              <span className=" profile__input-error email-error">
+                {errors.email}
+              </span>
             </div>
             <div className="profile__button-container">
-              <button
-                type="submit"
-                className={`profile__button profile__button_action_save ${
-                  !isValid && "profile__button_disabled"
-                }`}
-                aria-label="Сохранить изменения."
-                disabled={!isValid}
-              >
-                {"Редактировать" || "Сохранить"}
-              </button>
-              <button
-                type="button"
-                className="profile__button profile__button_action_logout"
-                aria-label="Выйти из аккаунта."
-                onClick={handleLogout}
-              >
-                Выйти из аккаунта
-              </button>
+              {isChangeButtonClicked && (
+                <>
+                  {invalidForm && (
+                    <span className="profile__input-error">
+                      При обновлении профиля произошла ошибка.
+                    </span>
+                  )}
+                  <button
+                    type="submit"
+                    className={`profile__button profile__button_action_save ${
+                      invalidForm && "profile__button_disabled"
+                    }`}
+                    aria-label="Сохранить изменения."
+                    disabled={invalidForm ? true : false}
+                  >
+                    Сохранить
+                  </button>
+                </>
+              )}
+              {!isChangeButtonClicked && (
+                <>
+                  <button
+                    type="button"
+                    className="profile__button profile__button_action_edit"
+                    aria-label="Изменить данные пользователя."
+                    onClick={handleClickChange}
+                  >
+                    Редактировать
+                  </button>
+                  <button
+                    type="button"
+                    className="profile__button profile__button_action_logout"
+                    aria-label="Выйти из аккаунта."
+                    onClick={handleLogout}
+                  >
+                    Выйти из аккаунта
+                  </button>
+                </>
+              )}
             </div>
           </form>
         </section>

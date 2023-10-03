@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
+import { Route, Routes, Navigate, useNavigate, useLocation } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import "../../vendor/normalize.css";
 import "../../vendor/fonts/fonts.css";
@@ -18,6 +18,7 @@ import mainApi from "../../utils/MainApi.js";
 
 function App() {
   const navigate = useNavigate();
+  const location = useLocation().pathname;
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isBurgerOpened, setIsBurgerOpened] = useState(false);
@@ -38,7 +39,7 @@ function App() {
           setIsLoggedIn(true);
           setCurrentUser(res);
           setUserEmail(res.email);
-          navigate("/", { replace: true });
+          navigate(location, { replace: true });
         })
         .catch((err) => {
           console.log("bye")
@@ -91,10 +92,10 @@ function App() {
     navigate("/", { replace: true });
   }
 
-  function handleProfile({ name, email }) {
+  function handleProfileChange({ name, email }) {
     const jwt = localStorage.getItem("jwt");
     mainApi
-      .patchUserInfo(name, email)
+      .patchUserInfo(name, email, jwt)
       .then(data => {
         setCurrentUser(data);
       })
@@ -168,7 +169,7 @@ function App() {
                     onClickBurger={onClickBurger}
                     isBurgerOpened={isBurgerOpened}
                     handleLogout={handleLogout}
-                    handleProfile={handleProfile}
+                    handleProfileChange={handleProfileChange}
                   />
                 }
               />

@@ -35,9 +35,7 @@ function Register({ handleRegister }) {
           <span className="sign__text">Имя</span>
           <input
             name="name"
-            className={`sign__input ${
-              errors.name && "sign__input_state_error"
-            }`}
+            className={`sign__input`}
             id="sign-name"
             placeholder="Имя"
             value={values.name || ""}
