@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Route, Routes, Navigate, useNavigate, useLocation } from "react-router-dom";
+import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import "../../vendor/normalize.css";
 import "../../vendor/fonts/fonts.css";
@@ -13,8 +13,9 @@ import Register from "../Register/Register";
 import Login from "../Login/Login";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import * as auth from "../../utils/auth.js";
-import mainApi from "../../utils/MainApi.js";
+import * as auth from "../../utils/auth";
+import mainApi from "../../utils/MainApi";
+import InfoTooltip from "../InfoToolTip/InfoToolTip";
 
 function App() {
   const navigate = useNavigate();
@@ -22,12 +23,40 @@ function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isBurgerOpened, setIsBurgerOpened] = useState(false);
+  const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [currentUser, setCurrentUser] = useState({});
+  const [savedMovies, setSavedMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
+  const [isSucceed, setIsSucceed] = useState(false);
+  const [errorText, setErrorText] = useState("");
+
+  function closePopup() {
+    setIsSuccessPopupOpen(false);
+  }
 
   useEffect(() => {
     checkCurrentToken();
   }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      const jwt = localStorage.getItem("jwt");
+      mainApi
+        .getSavedMovies(jwt)
+        .then((res) => {
+          setSavedMovies(res);
+          localStorage.setItem("allSavedMovies", JSON.stringify(savedMovies));
+        })
+        .catch((err) => {
+          setErrorText(
+            "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз."
+          );
+          console.log(`Ошибка загрузки ${err}`);
+        });
+    }
+  }, [isLoggedIn]);
 
   function checkCurrentToken() {
     const jwt = localStorage.getItem("jwt");
@@ -35,16 +64,16 @@ function App() {
       auth
         .checkToken(jwt)
         .then((res) => {
-          console.log("hello")
           setIsLoggedIn(true);
           setCurrentUser(res);
           setUserEmail(res.email);
+          setUserName(res.name);
           navigate(location, { replace: true });
         })
         .catch((err) => {
-          console.log("bye")
           setIsLoggedIn(false);
           setUserEmail("");
+          setUserName("");
           console.log(`Ошибка загрузки ${err}`);
         });
     }
@@ -56,34 +85,27 @@ function App() {
 
   function handleLogin({ email, password }) {
     auth
-      .authorize(email, password )
+      .authorize(email, password)
       .then((data) => localStorage.setItem("jwt", data.token))
       .then((data) => {
         setIsLoggedIn(true);
-        navigate("/", { replace: true });
-        // handleUserEmail(values.email);
-        // checkToken();
+        navigate("/movies", { replace: true });
       })
       .catch((err) => {
         console.log(`Ошибка загрузки ${err}`);
       });
-          
   }
 
   function handleRegister({ name, email, password }) {
     auth
-      .register( name, email, password)
+      .register(name, email, password)
       .then(() => {
-        // handleSuccessPopup(true);
-        // handleSucceed(true);
-          handleLogin({ email, password });
+        handleLogin({ email, password });
       })
       .catch((err) => {
-        // handleSuccessPopup(true);
-        // handleSucceed(false);
         console.log(`Ошибка загрузки ${err}`);
       });
-  };
+  }
 
   function handleLogout() {
     setCurrentUser({});
@@ -96,13 +118,48 @@ function App() {
     const jwt = localStorage.getItem("jwt");
     mainApi
       .patchUserInfo(name, email, jwt)
-      .then(data => {
+      .then((data) => {
         setCurrentUser(data);
+        setIsSuccessPopupOpen(true);
+        setIsSucceed(true);
+      })
+      .catch((err) => {
+        setIsSuccessPopupOpen(true);
+        setIsSucceed(false);
+        console.log(`Ошибка загрузки ${err}`);
+      });
+  }
+
+  function handleMovieLike(movie) {
+    const jwt = localStorage.getItem("jwt");
+    console.log(movie);
+    mainApi
+      .addMovie(movie, jwt)
+      .then((newMovie) => {
+        setSavedMovies([newMovie, ...savedMovies]);
       })
       .catch((err) => {
         console.log(`Ошибка загрузки ${err}`);
-      }
-      )
+      });
+  }
+
+  function handleMovieDelete(movie) {
+    const jwt = localStorage.getItem("jwt");
+    const likedMovie = savedMovies.find(
+      (el) => el.movieId === movie.id || el.movieId === movie.movieId
+    );
+    mainApi
+      .deleteMovie(likedMovie._id, jwt)
+      .then(() => {
+        // setSavedMovies((state) => state.filter((item) => item._id !== movie._id));
+        const newlikedMovies = savedMovies.filter((el) => {
+          return movie.id !== el.movieId || movie.movieId !== el.movieId;
+        });
+        setSavedMovies(newlikedMovies);
+      })
+      .catch((err) => {
+        console.log(`Ошибка загрузки ${err}`);
+      });
   }
 
   return (
@@ -145,6 +202,10 @@ function App() {
                     isLoggedIn={isLoggedIn}
                     onClickBurger={onClickBurger}
                     isBurgerOpened={isBurgerOpened}
+                    currentUser={currentUser}
+                    handleMovieLike={handleMovieLike}
+                    handleMovieDelete={handleMovieDelete}
+                    savedMovies={savedMovies}
                   />
                 }
               />
@@ -156,6 +217,12 @@ function App() {
                     isLoggedIn={isLoggedIn}
                     onClickBurger={onClickBurger}
                     isBurgerOpened={isBurgerOpened}
+                    currentUser={currentUser}
+                    handleMovieLike={handleMovieLike}
+                    handleMovieDelete={handleMovieDelete}
+                    savedMovies={savedMovies}
+                    errorText={errorText}
+                    setErrorText={setErrorText}
                   />
                 }
               />
@@ -165,25 +232,52 @@ function App() {
                   <ProtectedRoute
                     element={Profile}
                     userEmail={userEmail}
+                    userName={userName}
                     isLoggedIn={isLoggedIn}
                     onClickBurger={onClickBurger}
                     isBurgerOpened={isBurgerOpened}
                     handleLogout={handleLogout}
                     handleProfileChange={handleProfileChange}
+                    handleSuccessPopup={setIsSuccessPopupOpen}
+                    handleSucceed={setIsSucceed}
                   />
                 }
               />
               <Route
                 path="/signin"
                 element={
-                  <Login
-                    handleLogin={handleLogin}
-                    handleUserEmail={setUserEmail}
-                  />
+                  !isLoggedIn ? (
+                    <Login handleLogin={handleLogin} />
+                  ) : (
+                    <Main
+                      isLoggedIn={isLoggedIn}
+                      onClickBurger={onClickBurger}
+                      isBurgerOpened={isBurgerOpened}
+                    />
+                  )
                 }
               />
-              <Route path="/signup" element={<Register handleRegister={handleRegister}/>} />
+              <Route
+                path="/signup"
+                element={
+                  !isLoggedIn ? (
+                    <Register handleRegister={handleRegister} />
+                  ) : (
+                    <Main
+                      isLoggedIn={isLoggedIn}
+                      onClickBurger={onClickBurger}
+                      isBurgerOpened={isBurgerOpened}
+                    />
+                  )
+                }
+              />
             </Routes>
+
+            <InfoTooltip
+              onClose={closePopup}
+              isOpen={isSuccessPopupOpen}
+              isSucceed={isSucceed}
+            />
           </div>
         </div>
       </HelmetProvider>

@@ -6,11 +6,15 @@ import { useEffect, useContext, useState } from "react";
 import { NAME_REGEX, EMAIL_REGEX } from "../../utils/constants";
 
 function Profile({
+  userEmail,
+  userName,
   isLoggedIn,
   onClickBurger,
   isBurgerOpened,
   handleLogout,
   handleProfileChange,
+  handleSuccessPopup,
+  handleSucceed
 }) {
   const currentUser = useContext(CurrentUserContext);
 
@@ -39,8 +43,8 @@ function Profile({
     setIsChangeButtonClicked(true);
   };
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  function handleSubmit(evt) {
+    evt.preventDefault();
     handleProfileChange(values);
     setIsChangeButtonClicked(false);
   }
@@ -67,7 +71,7 @@ function Profile({
               <label className="profile__label">
                 <span className="profile__text">Имя</span>
                 <input
-                  value={values.name || ""}
+                  value={values.name || userName || ""}
                   type="text"
                   name="name"
                   className="profile__input"
@@ -87,7 +91,7 @@ function Profile({
               <label className="profile__label">
                 <span className="profile__text">E-mail</span>
                 <input
-                  value={values.email || ""}
+                  value={values.email || userEmail || ""}
                   type="text"
                   name="email"
                   className="profile__input"

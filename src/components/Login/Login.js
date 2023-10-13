@@ -1,20 +1,17 @@
 import SignPage from "../SignPage/SignPage";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import useForm from '../../hooks/formValidation';
 
-function Login({ handleLogin, handleUserEmail }) {
+function Login({ handleLogin }) {
   const { values, handleChange, errors, isValid, resetForm } = useForm();
-  
-  const navigate = useNavigate();
 
   useEffect(() => {
     resetForm();
   }, [resetForm]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
     handleLogin(values);
   }
 

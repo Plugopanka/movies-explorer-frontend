@@ -14,8 +14,8 @@ function Register({ handleRegister }) {
     // console.log(errors);
   }, [resetForm]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
     // console.log(values);
     // console.log(errors);
     handleRegister(values);

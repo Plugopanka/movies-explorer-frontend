@@ -1,6 +1,4 @@
 import { BASE_URL } from "./constants.js";
-
-// класс для взаимодействия с сервером
 class MainApi {
   constructor({ url, headers }) {
     this._url = url;
@@ -14,39 +12,37 @@ class MainApi {
     return res.json();
   }
 
-getContent = (token) => {
-    return fetch(`${BASE_URL}/users/me`, {
-      method: 'GET',
+  getContent = (token) => {
+    return fetch(`${this._url}/users/me`, {
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     }).then((res) => {
       return this._returnPromiseStatus(res);
     });
   };
-  
 
-register = (name, email, password) => {
-    return fetch(`${BASE_URL}/signup`, {
-      method: 'POST',
+  register = (name, email, password) => {
+    return fetch(`${this._url}/signup`, {
+      method: "POST",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ name, email, password }),
     }).then((res) => {
       return this._returnPromiseStatus(res);
     });
   };
-  
-authorize = (email, password) => {
-    return fetch(`${BASE_URL}/signin`, {
-      method: 'POST',
+
+  authorize = (email, password) => {
+    return fetch(`${this._url}/signin`, {
+      method: "POST",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
     }).then((res) => {
@@ -54,18 +50,16 @@ authorize = (email, password) => {
     });
   };
 
-  // запрос данных пользователя
   getUserInfo() {
     return fetch(`${this._url}/users/me`, {
       headers: {
-        authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        authorization: `Bearer ${localStorage.getItem("jwt")}`,
       },
     }).then((res) => {
       return this._returnPromiseStatus(res);
     });
   }
 
-  // запрос на редактирование данных пользователя
   patchUserInfo(name, email, token) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
@@ -79,7 +73,6 @@ authorize = (email, password) => {
     });
   }
 
-  // запрос фильмов
   getSavedMovies(token) {
     return fetch(`${this._url}/movies`, {
       headers: {
@@ -90,38 +83,33 @@ authorize = (email, password) => {
     });
   }
 
-  // сохранение фильма
-  addNewMovie(data, token) {
+  addMovie(movie, token) {
     return fetch(`${this._url}/movies`, {
       method: "POST",
       headers: {
         authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(
-        {
-          country: data.country,
-          director: data.director,
-          duration: data.duration,
-          year: data.year,
-          description: data.description,
-          image: data.image,
-          trailerLink: data.trailerLink,
-          thumbnail: data.thumbnail,
-          movieId: data.id,
-          nameRU: data.nameRU,
-          nameEN: data.nameEN,
-          token: token
-        },
-      ),
+      body: JSON.stringify({
+        country: movie.country,
+        director: movie.director,
+        duration: movie.duration,
+        year: movie.year,
+        description: movie.description,
+        image: `https://api.nomoreparties.co/${movie.image.url}`,
+        trailerLink: movie.trailerLink,
+        thumbnail: movie.thumbnail,
+        movieId: movie.id,
+        nameRU: movie.nameRU,
+        nameEN: movie.nameEN,
+      }),
     }).then((res) => {
       return this._returnPromiseStatus(res);
     });
   }
 
-  // удаление фильма из сохранённых
-  deleteMovie(data, token) {
-    return fetch(`${this._url}/movies/${data}`, {
+  deleteMovie(movie, token) {
+    return fetch(`${this._url}/movies/${movie}`, {
       method: "DELETE",
       headers: {
         authorization: `Bearer ${token}`,
