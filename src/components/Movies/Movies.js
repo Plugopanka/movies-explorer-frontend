@@ -60,8 +60,7 @@ function Movies({
     localStorage.setItem("userSearchText", inputText);
   }
 
-  function handleFormSubmit(evt) {
-    evt.preventDefault();
+  function handleFormSubmit() {
     if (movies.length === 0) {
       setIsLoading(true);
       moviesApi
@@ -117,7 +116,6 @@ function Movies({
           handleCheckboxSwitch={handleCheckboxSwitch}
           text={text}
           handleChangeText={handleChangeText}
-          errorText={errorText}
         />
         <MoviesCardList
           movies={searchedMoviesList}

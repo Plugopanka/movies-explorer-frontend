@@ -2,11 +2,11 @@ import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import { useState } from "react";
 
-function SearchForm({ handleFormSubmit, isShort, handleCheckboxSwitch, text, handleChangeText, errorText}) {
+function SearchForm({ handleFormSubmit, isShort, handleCheckboxSwitch, text, handleChangeText}) {
   // const [text, setText] = useState(
   //   localStorage.getItem("userSearchText") || ""
   // );
-  // const [errorText, setErrorText] = useState("");
+  const [errorText, setErrorText] = useState("");
 
   // function handleChangeText(evt) {
   //   const inputText = evt.target.value;
@@ -14,16 +14,15 @@ function SearchForm({ handleFormSubmit, isShort, handleCheckboxSwitch, text, han
   //   localStorage.setItem("userSearchText", inputText);
   // }
 
-  // function handleSubmit(evt) {
-  //   evt.preventDefault();
-  //   if (text.trim().length === 0) {
-  //     setErrorText("Нужно ввести ключевое слово.");
-  //   } else {
-  //     setErrorText("");
-  //     setText(localStorage.getItem("userSearchText"));
-  //     handleFormSubmit(text, isShort);
-  //   }
-  // }
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    if (text.trim().length === 0) {
+      setErrorText("Нужно ввести ключевое слово.");
+    } else {
+      setErrorText("");
+      handleFormSubmit();
+    }
+  }
 
   return (
     <section className="search">
@@ -31,7 +30,7 @@ function SearchForm({ handleFormSubmit, isShort, handleCheckboxSwitch, text, han
         className="search__form"
         name="search-form"
         noValidate
-        onSubmit={handleFormSubmit}
+        onSubmit={handleSubmit}
       >
         <div className="search__container">
           <label className="search__label">

@@ -56,19 +56,13 @@ function SavedMovies({
     localStorage.setItem("userSearchSavedText", inputText);
   }
 
-  function handleFormSubmit(evt) {
-    evt.preventDefault();
-    if (text.trim().length === 0) {
-      setErrorText("Нужно ввести ключевое слово.");
-    } else {
-      setErrorText("");
-      setText(localStorage.getItem("userSearchSavedText"));
-      handleFilterMovies();
-    }
+  function handleFormSubmit() {
+    setText(localStorage.getItem("userSearchSavedText"));
+    handleFilterMovies();
   }
 
   useEffect(() => {
-    setFilteredMovies(filteredMovies)
+    setFilteredMovies(filteredMovies);
   }, [filteredMovies]);
 
   useEffect(() => {
@@ -102,7 +96,6 @@ function SavedMovies({
           handleCheckboxSwitch={handleCheckboxSwitch}
           text={text}
           handleChangeText={handleChangeText}
-          errorText={errorText}
         />
         <MoviesCardList
           movies={filteredMovies}
