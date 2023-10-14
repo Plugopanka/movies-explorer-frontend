@@ -6,7 +6,7 @@ function FilterCheckbox({ isShort, handleCheckboxSwitch }) {
       <input
         className="filter__checkbox"
         type="checkbox"
-        checked={isShort}
+        checked={!isShort}
         onChange={handleCheckboxSwitch}
       />
       <div className="filter__tumbler"></div>

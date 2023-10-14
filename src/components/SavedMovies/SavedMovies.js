@@ -11,26 +11,29 @@ function SavedMovies({
   isLoggedIn,
   onClickBurger,
   isBurgerOpened,
-  currentUser,
   handleMovieDelete,
   savedMovies,
   errorText,
-  setErrorText
+  setErrorText,
 }) {
-  // const [allSavedMovies, setAllSavedMovies] = useState(savedMovies);
-  const [filteredMovies, setFilteredMovies] = useState(JSON.parse(localStorage.getItem("filteredSavedMovies")) || savedMovies);
+  const [filteredMovies, setFilteredMovies] = useState(
+    JSON.parse(localStorage.getItem("filteredSavedMovies")) || savedMovies
+  );
 
   const [isShort, setIsShort] = useState(
     JSON.parse(localStorage.getItem("isShortSavedMovie")) || false
   );
 
-  function handleFilterMovies(text, checkbox) {
-    const moviesList = filterMovies(savedMovies, text, checkbox);
+  const [text, setText] = useState(
+    localStorage.getItem("userSearchSavedText") || ""
+  );
+
+  function handleFilterMovies() {
+    console.log(savedMovies);
+    const moviesList = filterMovies(savedMovies, text, isShort);
     console.log(moviesList);
     localStorage.setItem("filteredSavedMovies", JSON.stringify(moviesList));
-    setFilteredMovies(
-      checkbox ? filterShortMovies(moviesList) : moviesList
-    );
+    setFilteredMovies(isShort ? filterShortMovies(moviesList) : moviesList);
     moviesList.length === 0
       ? setErrorText("Ничего не найдено.")
       : setErrorText("");
@@ -43,45 +46,43 @@ function SavedMovies({
     } else {
       setFilteredMovies(filteredMovies);
     }
-    localStorage.setIcccctem("isShortSavedMovie", JSON.stringify(!isShort));
+    localStorage.setItem("isShortSavedMovie", JSON.stringify(!isShort));
+    handleFilterMovies();
   }
 
-  // function handleFormSubmit(text) {
-  //   if (movies.length === 0) {
-  //     moviesApi
-  //       .getMovies()
-  //       .then((movies) => {
-  //         setMovies(movies);
-  //         handleFilterMovies(text, isShort);
-  //       })
-  //       .catch(() =>
-  //         setErrorText(
-  //           "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз."
-  //         )
-  //       );
-  //   } else {
-  //     handleFilterMovies(text, isShort);
-  //     console.log(movies);
-  //   }
-  // }
+  function handleChangeText(evt) {
+    const inputText = evt.target.value;
+    setText(inputText);
+    localStorage.setItem("userSearchSavedText", inputText);
+  }
+
+  function handleFormSubmit(evt) {
+    evt.preventDefault();
+    if (text.trim().length === 0) {
+      setErrorText("Нужно ввести ключевое слово.");
+    } else {
+      setErrorText("");
+      setText(localStorage.getItem("userSearchSavedText"));
+      handleFilterMovies();
+    }
+  }
 
   useEffect(() => {
-    if (localStorage.getItem("isShortSavedMovie")) {
-      setIsShort(true);
-    } else {
+    setFilteredMovies(filteredMovies)
+  }, [filteredMovies]);
+
+  useEffect(() => {
+    if (localStorage.getItem("isShortSavedMovie") === true) {
       setIsShort(false);
+    } else {
+      setIsShort(true);
     }
-  }, [currentUser]);
+  }, []);
 
   useEffect(() => {
     if (localStorage.getItem("filteredSavedMovies")) {
       const movies = JSON.parse(localStorage.getItem("filteredSavedMovies"));
-      setFilteredMovies(movies);
-      if (localStorage.getItem(isShort === "true")) {
-        setFilteredMovies(setIsShort(movies));
-      } else {
-        setFilteredMovies(movies);
-      }
+      setFilteredMovies(!isShort ? filterShortMovies(movies) : movies);
     } else {
       setFilteredMovies(JSON.parse(localStorage.getItem("allSavedMovies")));
     }
@@ -96,14 +97,18 @@ function SavedMovies({
       />
       <main className="saved-movies">
         <SearchForm
-          handleFormSubmit={handleFilterMovies}
+          handleFormSubmit={handleFormSubmit}
           isShort={isShort}
           handleCheckboxSwitch={handleCheckboxSwitch}
+          text={text}
+          handleChangeText={handleChangeText}
+          errorText={errorText}
         />
         <MoviesCardList
           movies={filteredMovies}
           errorText={errorText}
           handleMovieDelete={handleMovieDelete}
+          savedMovies={savedMovies}
         />
       </main>
       <Footer />

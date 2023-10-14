@@ -49,8 +49,8 @@ function MoviesCardList({
     }
   }
 
-  function getSavedMovies(arr, movie) {
-    return arr.find((item) => item.movieId === movie.id);
+  function getSavedMovie(movie) {
+    return savedMovies.find((item) => item.movieId === movie.id);
   }
 
   return (
@@ -65,7 +65,7 @@ function MoviesCardList({
               movie={movie}
               handleMovieLike={handleMovieLike}
               handleMovieDelete={handleMovieDelete}
-              isSaved={getSavedMovies(savedMovies, movie)}
+              isSaved={getSavedMovie(movie)}
             />
           ))}
         </ul>

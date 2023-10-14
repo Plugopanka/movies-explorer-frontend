@@ -26,7 +26,9 @@ function App() {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [currentUser, setCurrentUser] = useState({});
-  const [savedMovies, setSavedMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState(
+    JSON.parse(localStorage.getItem("allSavedMovies")) || []
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
   const [isSucceed, setIsSucceed] = useState(false);
@@ -41,22 +43,20 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (isLoggedIn) {
-      const jwt = localStorage.getItem("jwt");
-      mainApi
-        .getSavedMovies(jwt)
-        .then((res) => {
-          setSavedMovies(res);
-          localStorage.setItem("allSavedMovies", JSON.stringify(savedMovies));
-        })
-        .catch((err) => {
-          setErrorText(
-            "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз."
-          );
-          console.log(`Ошибка загрузки ${err}`);
-        });
-    }
-  }, [isLoggedIn]);
+    const jwt = localStorage.getItem("jwt");
+    mainApi
+      .getSavedMovies(jwt)
+      .then((res) => {
+        setSavedMovies(res);
+        localStorage.setItem("allSavedMovies", JSON.stringify(savedMovies));
+      })
+      .catch((err) => {
+        setErrorText(
+          "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз."
+        );
+        console.log(`Ошибка загрузки ${err}`);
+      });
+  }, []);
 
   function checkCurrentToken() {
     const jwt = localStorage.getItem("jwt");
@@ -111,6 +111,7 @@ function App() {
     setCurrentUser({});
     setIsLoggedIn(false);
     localStorage.removeItem("jwt");
+    localStorage.clear();
     navigate("/", { replace: true });
   }
 
@@ -153,7 +154,7 @@ function App() {
       .then(() => {
         // setSavedMovies((state) => state.filter((item) => item._id !== movie._id));
         const newlikedMovies = savedMovies.filter((el) => {
-          return movie.id !== el.movieId || movie.movieId !== el.movieId;
+          return movie.movieId !== el.movieId || movie.id !== el.movieId;
         });
         setSavedMovies(newlikedMovies);
       })
@@ -202,7 +203,6 @@ function App() {
                     isLoggedIn={isLoggedIn}
                     onClickBurger={onClickBurger}
                     isBurgerOpened={isBurgerOpened}
-                    currentUser={currentUser}
                     handleMovieLike={handleMovieLike}
                     handleMovieDelete={handleMovieDelete}
                     savedMovies={savedMovies}
@@ -217,7 +217,6 @@ function App() {
                     isLoggedIn={isLoggedIn}
                     onClickBurger={onClickBurger}
                     isBurgerOpened={isBurgerOpened}
-                    currentUser={currentUser}
                     handleMovieLike={handleMovieLike}
                     handleMovieDelete={handleMovieDelete}
                     savedMovies={savedMovies}

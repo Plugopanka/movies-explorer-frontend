@@ -2,28 +2,28 @@ import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import { useState } from "react";
 
-function SearchForm({ handleFormSubmit, isShort, handleCheckboxSwitch }) {
-  const [text, setText] = useState(
-    localStorage.getItem("userSearchText") || ""
-  );
-  const [errorText, setErrorText] = useState("");
+function SearchForm({ handleFormSubmit, isShort, handleCheckboxSwitch, text, handleChangeText, errorText}) {
+  // const [text, setText] = useState(
+  //   localStorage.getItem("userSearchText") || ""
+  // );
+  // const [errorText, setErrorText] = useState("");
 
-  function handleChangeText(evt) {
-    const inputText = evt.target.value;
-    setText(inputText);
-    localStorage.setItem("userSearchText", inputText);
-  }
+  // function handleChangeText(evt) {
+  //   const inputText = evt.target.value;
+  //   setText(inputText);
+  //   localStorage.setItem("userSearchText", inputText);
+  // }
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    if (text.trim().length === 0) {
-      setErrorText("Нужно ввести ключевое слово.");
-    } else {
-      setErrorText("");
-      setText(localStorage.getItem("userSearchText"));
-      handleFormSubmit(text, isShort);
-    }
-  }
+  // function handleSubmit(evt) {
+  //   evt.preventDefault();
+  //   if (text.trim().length === 0) {
+  //     setErrorText("Нужно ввести ключевое слово.");
+  //   } else {
+  //     setErrorText("");
+  //     setText(localStorage.getItem("userSearchText"));
+  //     handleFormSubmit(text, isShort);
+  //   }
+  // }
 
   return (
     <section className="search">
@@ -31,7 +31,7 @@ function SearchForm({ handleFormSubmit, isShort, handleCheckboxSwitch }) {
         className="search__form"
         name="search-form"
         noValidate
-        onSubmit={handleSubmit}
+        onSubmit={handleFormSubmit}
       >
         <div className="search__container">
           <label className="search__label">
