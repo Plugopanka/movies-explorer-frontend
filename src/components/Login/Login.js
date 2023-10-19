@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import useForm from '../../hooks/formValidation';
 
-function Login({ handleLogin }) {
+function Login({ handleLogin, errorText }) {
   const { values, handleChange, errors, isValid, resetForm } = useForm();
 
   useEffect(() => {
@@ -24,6 +24,7 @@ function Login({ handleLogin }) {
       formValue={values}
       formError={errors}
       isValid={isValid}
+      errorText={errorText}
       linkChildren={
         <span className="sign__link-text">
           Ещё не зарегистрированы?&nbsp;

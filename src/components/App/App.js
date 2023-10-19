@@ -47,8 +47,13 @@ function App() {
     mainApi
       .getSavedMovies(jwt)
       .then((res) => {
-        setSavedMovies(res);
-        localStorage.setItem("allSavedMovies", JSON.stringify(savedMovies));
+        if (res.length) {
+          setSavedMovies(res);
+          localStorage.setItem("allSavedMovies", JSON.stringify(savedMovies));
+          setErrorText("");
+        } else {
+          setErrorText("Нечего не найдено");
+        }
       })
       .catch((err) => {
         setErrorText(
@@ -87,12 +92,18 @@ function App() {
     auth
       .authorize(email, password)
       .then((data) => localStorage.setItem("jwt", data.token))
-      .then((data) => {
+      .then(() => {
         setIsLoggedIn(true);
+        setErrorText("");
         navigate("/movies", { replace: true });
       })
       .catch((err) => {
         console.log(`Ошибка загрузки ${err}`);
+        if (err.includes(401)) {
+          setErrorText("Неверный логин или пароль");
+        } else {
+          setErrorText("При авторизации произошла ошибка");
+        }
       });
   }
 
@@ -100,10 +111,16 @@ function App() {
     auth
       .register(name, email, password)
       .then(() => {
+        setErrorText("");
         handleLogin({ email, password });
       })
       .catch((err) => {
         console.log(`Ошибка загрузки ${err}`);
+        if (err.includes(409)) {
+          setErrorText("Пользователь с таким email уже существует");
+        } else {
+          setErrorText("При регистрации произошла ошибка");
+        }
       });
   }
 
@@ -138,25 +155,10 @@ function App() {
       .addMovie(movie, jwt)
       .then((newMovie) => {
         setSavedMovies([newMovie, ...savedMovies]);
-      })
-      .catch((err) => {
-        console.log(`Ошибка загрузки ${err}`);
-      });
-  }
-
-  function handleMovieDelete(movie) {
-    const jwt = localStorage.getItem("jwt");
-    const likedMovie = savedMovies.find(
-      (el) => el.movieId === movie.id || el.movieId === movie.movieId
-    );
-    mainApi
-      .deleteMovie(likedMovie._id, jwt)
-      .then(() => {
-        // setSavedMovies((state) => state.filter((item) => item._id !== movie._id));
-        const newlikedMovies = savedMovies.filter((el) => {
-          return movie.movieId !== el.movieId || movie.id !== el.movieId;
-        });
-        setSavedMovies(newlikedMovies);
+        localStorage.setItem("allSavedMovies", JSON.stringify([newMovie, ...savedMovies]));
+        // setSavedMovies(JSON.parse(localStorage.getItem("allSavedMovies")))
+        console.log(savedMovies)
+        console.log(JSON.parse(localStorage.getItem("allSavedMovies")))
       })
       .catch((err) => {
         console.log(`Ошибка загрузки ${err}`);
@@ -204,8 +206,8 @@ function App() {
                     onClickBurger={onClickBurger}
                     isBurgerOpened={isBurgerOpened}
                     handleMovieLike={handleMovieLike}
-                    handleMovieDelete={handleMovieDelete}
                     savedMovies={savedMovies}
+                    setSavedMovies={setSavedMovies}
                   />
                 }
               />
@@ -217,9 +219,9 @@ function App() {
                     isLoggedIn={isLoggedIn}
                     onClickBurger={onClickBurger}
                     isBurgerOpened={isBurgerOpened}
-                    handleMovieLike={handleMovieLike}
-                    handleMovieDelete={handleMovieDelete}
+                    // handleMovieDelete={handleMovieDelete}
                     savedMovies={savedMovies}
+                    setSavedMovies={setSavedMovies}
                     errorText={errorText}
                     setErrorText={setErrorText}
                   />
@@ -246,7 +248,7 @@ function App() {
                 path="/signin"
                 element={
                   !isLoggedIn ? (
-                    <Login handleLogin={handleLogin} />
+                    <Login handleLogin={handleLogin} errorText={errorText} />
                   ) : (
                     <Main
                       isLoggedIn={isLoggedIn}
@@ -260,7 +262,10 @@ function App() {
                 path="/signup"
                 element={
                   !isLoggedIn ? (
-                    <Register handleRegister={handleRegister} />
+                    <Register
+                      handleRegister={handleRegister}
+                      errorText={errorText}
+                    />
                   ) : (
                     <Main
                       isLoggedIn={isLoggedIn}

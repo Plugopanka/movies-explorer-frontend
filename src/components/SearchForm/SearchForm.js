@@ -1,23 +1,28 @@
 import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
-function SearchForm({ handleFormSubmit, isShort, handleCheckboxSwitch, text, handleChangeText}) {
-  // const [text, setText] = useState(
-  //   localStorage.getItem("userSearchText") || ""
-  // );
+function SearchForm({
+  handleFormSubmit,
+  isShort,
+  handleCheckboxSwitch,
+  text,
+  handleChangeText,
+}) {
+  const location = useLocation();
+
   const [errorText, setErrorText] = useState("");
-
-  // function handleChangeText(evt) {
-  //   const inputText = evt.target.value;
-  //   setText(inputText);
-  //   localStorage.setItem("userSearchText", inputText);
-  // }
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    if (text.trim().length === 0) {
-      setErrorText("Нужно ввести ключевое слово.");
+    if (location.pathname === "/movies") {
+      if (text.trim().length === 0) {
+        setErrorText("Нужно ввести ключевое слово.");
+      } else {
+        setErrorText("");
+        handleFormSubmit();
+      }
     } else {
       setErrorText("");
       handleFormSubmit();
@@ -52,7 +57,10 @@ function SearchForm({ handleFormSubmit, isShort, handleCheckboxSwitch, text, han
             aria-label="Найти фильмы."
           ></button>
         </div>
-        <FilterCheckbox isShort={isShort} handleCheckboxSwitch={handleCheckboxSwitch}/>
+        <FilterCheckbox
+          isShort={isShort}
+          handleCheckboxSwitch={handleCheckboxSwitch}
+        />
       </form>
     </section>
   );

@@ -4,20 +4,17 @@ import { Link, useNavigate } from "react-router-dom";
 import useForm from "../../hooks/formValidation";
 import { NAME_REGEX } from "../../utils/constants";
 
-function Register({ handleRegister }) {
+function Register({ handleRegister, errorText }) {
   const { values, handleChange, errors, isValid, resetForm } = useForm();
 
   const navigate = useNavigate();
 
   useEffect(() => {
     resetForm();
-    // console.log(errors);
   }, [resetForm]);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    // console.log(values);
-    // console.log(errors);
     handleRegister(values);
   };
 
@@ -30,6 +27,7 @@ function Register({ handleRegister }) {
       formValue={values}
       formError={errors}
       isValid={isValid}
+      errorText={errorText}
       inputChildren={
         <label className="sign__label">
           <span className="sign__text">Имя</span>

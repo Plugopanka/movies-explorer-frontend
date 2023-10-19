@@ -106,6 +106,15 @@
   line-height: 1.2;
 }
 
+.sign__base-error {
+  color: #8b8b8b;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  padding-bottom: 5px;
+}
+
 .sign__button-container {
   display: flex;
   flex-direction: column;

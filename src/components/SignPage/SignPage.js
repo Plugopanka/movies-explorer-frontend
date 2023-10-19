@@ -11,6 +11,7 @@ function SignPage({
   formValue,
   formError,
   isValid,
+  errorText,
   inputChildren,
   linkChildren,
 }) {
@@ -66,9 +67,10 @@ function SignPage({
             </label>
           </div>
           <div className="sign__button-container">
+            <span className="sign__base-error">{errorText}</span>
             <button
               type="submit"
-              className={`sign__button ${!isValid && 'sign__button_disabled'}`}
+              className={`sign__button ${!isValid && "sign__button_disabled"}`}
               aria-label="Сохранить изменения."
               disabled={!isValid}
             >

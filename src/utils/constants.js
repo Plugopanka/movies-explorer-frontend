@@ -1,12 +1,15 @@
-// export const BASE_URL = "http://localhost:4000";
+export const BASE_URL = "http://localhost:4000";
 export const BEATFILMS_URL = " https://api.nomoreparties.co/beatfilm-movies";
-export const BASE_URL = "https://api.plugopanka.nomoredomainsicu.ru";
+// export const BASE_URL = "https://api.plugopanka.nomoredomainsicu.ru";
 // export const FRONT_URL = "https://plugopanka.nomoredomainsicu.ru";
 
 export const NAME_REGEX = "^[A-Za-zА-Яа-яЁё\\-\\s]+$";
 export const EMAIL_REGEX = "^\\S+@\\S+\\.\\S+$";
 
 export const MAX_SHORT_FILM_DURATION = 40;
+
+export const MIN_LAPTOP_DISPLAY = 1265;
+export const MIN_TABLET_DISPLAY = 760;
 
 // export const Movies = [
 //   {

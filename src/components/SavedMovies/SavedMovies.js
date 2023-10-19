@@ -3,7 +3,7 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import moviesApi from "../../utils/MoviesApi";
+import mainApi from "../../utils/MainApi";
 import { useState, useEffect } from "react";
 import { filterMovies, filterShortMovies } from "../../utils/filterMovies";
 
@@ -11,13 +11,13 @@ function SavedMovies({
   isLoggedIn,
   onClickBurger,
   isBurgerOpened,
-  handleMovieDelete,
   savedMovies,
+  setSavedMovies,
   errorText,
   setErrorText,
 }) {
   const [filteredMovies, setFilteredMovies] = useState(
-    JSON.parse(localStorage.getItem("filteredSavedMovies")) || savedMovies
+    JSON.parse(localStorage.getItem("filteredSavedMovies")) || JSON.parse(localStorage.getItem("allSavedMovies"))
   );
 
   const [isShort, setIsShort] = useState(
@@ -29,25 +29,40 @@ function SavedMovies({
   );
 
   function handleFilterMovies() {
+    const movies = JSON.parse(localStorage.getItem("allSavedMovies"));
     console.log(savedMovies);
-    const moviesList = filterMovies(savedMovies, text, isShort);
-    console.log(moviesList);
-    localStorage.setItem("filteredSavedMovies", JSON.stringify(moviesList));
-    setFilteredMovies(isShort ? filterShortMovies(moviesList) : moviesList);
-    moviesList.length === 0
-      ? setErrorText("Ничего не найдено.")
-      : setErrorText("");
+    console.log(movies);
+    if (movies && movies.length !== 0 ) {
+      const moviesList = filterMovies(movies, text, isShort);
+      console.log(moviesList);
+      localStorage.setItem("filteredSavedMovies", JSON.stringify(moviesList));
+      setFilteredMovies(isShort ? filterShortMovies(moviesList) : moviesList);
+      moviesList.length === 0
+        ? setErrorText("Ничего не найдено.")
+        : setErrorText("");
+    } else {
+      setErrorText("Нет сохраненных фильмов");
+    }
   }
 
   function handleCheckboxSwitch() {
     setIsShort(!isShort);
     if (!isShort) {
       setFilteredMovies(filterShortMovies(filteredMovies));
+      // localStorage.setItem("filteredSavedMovies", JSON.stringify(filterShortMovies(filteredMovies)));
+      filterShortMovies(filteredMovies).length === 0 ? setErrorText("Ничего не найдено") : setErrorText("");
+      // filterShortMovies(savedMovies).length === 0 ? setErrorText("Ничего не найдено") : setErrorText("");
     } else {
       setFilteredMovies(filteredMovies);
     }
     localStorage.setItem("isShortSavedMovie", JSON.stringify(!isShort));
-    handleFilterMovies();
+    if (savedMovies && savedMovies.length !== 0) {
+      setFilteredMovies(filterShortMovies(
+        JSON.parse(localStorage.getItem("filteredSavedMovies"))
+      ));
+    } else {
+      setErrorText("Нет сохраненных фильмов");
+    }
   }
 
   function handleChangeText(evt) {
@@ -61,24 +76,59 @@ function SavedMovies({
     handleFilterMovies();
   }
 
+  function handleMovieDelete(movie) {
+    const jwt = localStorage.getItem("jwt");
+    mainApi
+      .deleteMovie(movie._id, jwt)
+      .then(() => {
+        console.log(savedMovies);
+        const newlikedMovies = savedMovies.filter((el) => {
+          return el._id !== movie._id;
+        });
+        localStorage.setItem("allSavedMovies", JSON.stringify(newlikedMovies));
+        setSavedMovies(JSON.parse(localStorage.getItem("allSavedMovies")));
+        console.log(savedMovies);
+        handleFilterMovies();
+      })
+      .catch((err) => {
+        console.log(`Ошибка загрузки ${err}`);
+      });
+    // setSavedMovies(JSON.parse(localStorage.getItem("allSavedMovies")));
+    // console.log(savedMovies);
+  }
+
   useEffect(() => {
     setFilteredMovies(filteredMovies);
   }, [filteredMovies]);
 
   useEffect(() => {
     if (localStorage.getItem("isShortSavedMovie") === true) {
-      setIsShort(false);
-    } else {
       setIsShort(true);
+    } else {
+      setIsShort(false);
     }
   }, []);
 
   useEffect(() => {
-    if (localStorage.getItem("filteredSavedMovies")) {
-      const movies = JSON.parse(localStorage.getItem("filteredSavedMovies"));
-      setFilteredMovies(!isShort ? filterShortMovies(movies) : movies);
+    if (filteredMovies) {
+      if (
+        filteredMovies.length !== 0
+      ) {
+        // const movies = JSON.parse(localStorage.getItem("filteredSavedMovies"));
+        setFilteredMovies(isShort ? filterShortMovies(filteredMovies) : filteredMovies);
+        setErrorText("");
+      } else {
+        setErrorText("Ничего не найдено");
+      }
+    } else if (savedMovies) {
+      setFilteredMovies(savedMovies);
+      // localStorage.setItem(
+      //   "filteredSavedMovies",
+      //   JSON.stringify(localStorage.getItem("allSavedMovies"))
+      // );
+      setErrorText("");
     } else {
-      setFilteredMovies(JSON.parse(localStorage.getItem("allSavedMovies")));
+      setErrorText("Нет сохраненных фильмов");
     }
   }, []);
 

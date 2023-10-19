@@ -7,11 +7,11 @@ export function filterMovies(movies, text, checkbox) {
     const movieEn = String(movie.nameEN).toLowerCase().trim();
     return movieRu.includes(userText) || movieEn.includes(userText);
   });
-  if (checkbox) {
-    return filterShortMovies(searchedMovies);
-  } else {
+  // if (checkbox) {
+  //   return filterShortMovies(searchedMovies);
+  // } else {
     return searchedMovies;
-  }
+  // }
 }
 
 export function setDuration(time) {
