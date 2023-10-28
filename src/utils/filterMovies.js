@@ -1,17 +1,13 @@
 import { MAX_SHORT_FILM_DURATION } from "./constants";
 
-export function filterMovies(movies, text, checkbox) {
+export function filterMovies(movies, text) {
   const userText = text.toLowerCase().trim();
   const searchedMovies = movies.filter((movie) => {
     const movieRu = String(movie.nameRU).toLowerCase().trim();
     const movieEn = String(movie.nameEN).toLowerCase().trim();
     return movieRu.includes(userText) || movieEn.includes(userText);
   });
-  // if (checkbox) {
-  //   return filterShortMovies(searchedMovies);
-  // } else {
-    return searchedMovies;
-  // }
+  return searchedMovies;
 }
 
 export function setDuration(time) {

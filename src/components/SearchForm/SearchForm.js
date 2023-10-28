@@ -9,16 +9,16 @@ function SearchForm({
   handleCheckboxSwitch,
   text,
   handleChangeText,
+  setErrorText,
+  errorText,
 }) {
   const location = useLocation();
-
-  const [errorText, setErrorText] = useState("");
 
   function handleSubmit(evt) {
     evt.preventDefault();
     if (location.pathname === "/movies") {
       if (text.trim().length === 0) {
-        setErrorText("Нужно ввести ключевое слово.");
+        setErrorText("Нужно ввести ключевое слово");
       } else {
         setErrorText("");
         handleFormSubmit();
@@ -57,10 +57,7 @@ function SearchForm({
             aria-label="Найти фильмы."
           ></button>
         </div>
-        <FilterCheckbox
-          isShort={isShort}
-          handleCheckboxSwitch={handleCheckboxSwitch}
-        />
+        <FilterCheckbox isShort={isShort} handleCheckboxSwitch={handleCheckboxSwitch} />
       </form>
     </section>
   );

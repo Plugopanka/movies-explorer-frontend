@@ -33,6 +33,7 @@ function App() {
   const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
   const [isSucceed, setIsSucceed] = useState(false);
   const [errorText, setErrorText] = useState("");
+  const [apiErrorText, setApiErrorText] = useState("");
 
   function closePopup() {
     setIsSuccessPopupOpen(false);
@@ -49,14 +50,17 @@ function App() {
       .then((res) => {
         if (res.length) {
           setSavedMovies(res);
-          localStorage.setItem("allSavedMovies", JSON.stringify(savedMovies));
-          setErrorText("");
+          localStorage.setItem("allSavedMovies", JSON.stringify(res));
+          console.log(res)
+          console.log(savedMovies)
+          console.log(JSON.parse(localStorage.getItem("allSavedMovies")))
+          setApiErrorText("");
         } else {
-          setErrorText("Нечего не найдено");
+          setApiErrorText("Нет сохраненных фильмов");
         }
       })
       .catch((err) => {
-        setErrorText(
+        setApiErrorText(
           "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз."
         );
         console.log(`Ошибка загрузки ${err}`);
@@ -156,7 +160,6 @@ function App() {
       .then((newMovie) => {
         setSavedMovies([newMovie, ...savedMovies]);
         localStorage.setItem("allSavedMovies", JSON.stringify([newMovie, ...savedMovies]));
-        // setSavedMovies(JSON.parse(localStorage.getItem("allSavedMovies")))
         console.log(savedMovies)
         console.log(JSON.parse(localStorage.getItem("allSavedMovies")))
       })
@@ -219,11 +222,10 @@ function App() {
                     isLoggedIn={isLoggedIn}
                     onClickBurger={onClickBurger}
                     isBurgerOpened={isBurgerOpened}
-                    // handleMovieDelete={handleMovieDelete}
                     savedMovies={savedMovies}
                     setSavedMovies={setSavedMovies}
-                    errorText={errorText}
-                    setErrorText={setErrorText}
+                    errorText={apiErrorText}
+                    setErrorText={setApiErrorText}
                   />
                 }
               />

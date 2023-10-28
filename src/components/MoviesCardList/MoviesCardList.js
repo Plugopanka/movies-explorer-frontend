@@ -16,7 +16,6 @@ function MoviesCardList({
 }) {
   const location = useLocation();
 
-
   const display = useScreenResize();
   // const display = window.innerWidth;
 
@@ -45,41 +44,47 @@ function MoviesCardList({
   }
 
   function getSavedMovie(movie) {
+    const savedMovies = JSON.parse(localStorage.getItem("allSavedMovies"));
+    if (savedMovies) {
     return savedMovies.find(
       (item) => item.movieId === (movie.id || movie.movieId)
     );
+    }
   }
 
   return (
     <section className="movies-list">
       {isLoading && <Preloader />}
       <span>{errorText}</span>
-      {location.pathname === "/movies" && (
-        <ul className="movies-list__list">
-          {movies.slice(0, movieCounter).map((movie) => (
-            <MoviesCard
-              key={movie.id}
-              movie={movie}
-              handleMovieLike={handleMovieLike}
-              handleMovieDelete={handleMovieDelete}
-              isSaved={getSavedMovie(movie)}
-            />
-          ))}
-        </ul>
-      )}
-      {location.pathname === "/saved-movies" &&
+      {location.pathname === "/movies" &&
+        movies !== null &&
         movies.length !==
           0 && (
             <ul className="movies-list__list">
-              {movies.map((movie) => (
+              {movies.slice(0, movieCounter).map((movie) => (
                 <MoviesCard
-                  key={movie._id}
+                  key={movie.id}
                   movie={movie}
+                  handleMovieLike={handleMovieLike}
                   handleMovieDelete={handleMovieDelete}
+                  isSaved={getSavedMovie(movie)}
                 />
               ))}
             </ul>
           )}
+      {location.pathname === "/saved-movies" &&
+        movies !== null &&
+        movies.length !== 0 && (
+          <ul className="movies-list__list">
+            {movies.map((movie) => (
+              <MoviesCard
+                key={movie._id}
+                movie={movie}
+                handleMovieDelete={handleMovieDelete}
+              />
+            ))}
+          </ul>
+        )}
       {location.pathname === "/movies" && movies.length > movieCounter && (
         <button
           type="button"
