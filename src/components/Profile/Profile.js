@@ -14,7 +14,7 @@ function Profile({
   handleLogout,
   handleProfileChange,
   handleSuccessPopup,
-  handleSucceed
+  handleSucceed,
 }) {
   const currentUser = useContext(CurrentUserContext);
 
@@ -32,7 +32,10 @@ function Profile({
   }, [currentUser, setValues]);
 
   useEffect(() => {
-    resetForm(currentUser);
+    console.log(currentUser)
+    if (currentUser) {
+      resetForm(currentUser);
+    }
   }, [currentUser, resetForm]);
 
   const invalidForm =
@@ -114,7 +117,7 @@ function Profile({
                 <>
                   {invalidForm && (
                     <span className="profile__input-error">
-                      При обновлении профиля произошла ошибка.
+                      Поле имени или e-mail не изменено.
                     </span>
                   )}
                   <button

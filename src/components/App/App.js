@@ -41,7 +41,7 @@ function App() {
 
   useEffect(() => {
     checkCurrentToken();
-  }, []);
+  }, [isLoggedIn]);
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
@@ -74,6 +74,7 @@ function App() {
         .checkToken(jwt)
         .then((res) => {
           setIsLoggedIn(true);
+          console.log(res)
           setCurrentUser(res);
           setUserEmail(res.email);
           setUserName(res.name);
