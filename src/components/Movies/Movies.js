@@ -84,6 +84,7 @@ function Movies({
   function handleFormSubmit() {
     if (movies.length === 0) {
       setIsLoading(true);
+      setErrorText("");
       moviesApi
         .getMovies()
         .then((movies) => {
@@ -141,11 +142,13 @@ function Movies({
       setIsShort(true);
       if (movies.length === 0) {
         setIsLoading(true);
+        setErrorText("");
         moviesApi
           .getMovies()
           .then((movies) => {
             setMovies(movies);
             localStorage.setItem("allMovies", JSON.stringify(movies));
+            console.log(JSON.parse(localStorage.getItem("allMovies")));
             handleFilterMovies();
           })
           .catch(() =>
@@ -159,9 +162,7 @@ function Movies({
       }
     } else {
       setIsShort(false);
-      if (movies.length === 0) {
-        setErrorText("gegeg");
-      } else {
+      if (movies && movies.length !== 0) {
         setSearchedMoviesList(searchedMoviesList);
         handleFilterMovies();
       }
