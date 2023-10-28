@@ -48,12 +48,12 @@ function App() {
     mainApi
       .getSavedMovies(jwt)
       .then((res) => {
+        setSavedMovies(res);
+        localStorage.setItem("allSavedMovies", JSON.stringify(res));
+        console.log(res);
+        console.log(savedMovies);
+        console.log(JSON.parse(localStorage.getItem("allSavedMovies")));
         if (res.length) {
-          setSavedMovies(res);
-          localStorage.setItem("allSavedMovies", JSON.stringify(res));
-          console.log(res)
-          console.log(savedMovies)
-          console.log(JSON.parse(localStorage.getItem("allSavedMovies")))
           setApiErrorText("");
         } else {
           setApiErrorText("Нет сохраненных фильмов");
@@ -65,7 +65,7 @@ function App() {
         );
         console.log(`Ошибка загрузки ${err}`);
       });
-  }, []);
+  }, [isLoggedIn]);
 
   function checkCurrentToken() {
     const jwt = localStorage.getItem("jwt");
@@ -159,9 +159,12 @@ function App() {
       .addMovie(movie, jwt)
       .then((newMovie) => {
         setSavedMovies([newMovie, ...savedMovies]);
-        localStorage.setItem("allSavedMovies", JSON.stringify([newMovie, ...savedMovies]));
-        console.log(savedMovies)
-        console.log(JSON.parse(localStorage.getItem("allSavedMovies")))
+        localStorage.setItem(
+          "allSavedMovies",
+          JSON.stringify([newMovie, ...savedMovies])
+        );
+        console.log(savedMovies);
+        console.log(JSON.parse(localStorage.getItem("allSavedMovies")));
       })
       .catch((err) => {
         console.log(`Ошибка загрузки ${err}`);

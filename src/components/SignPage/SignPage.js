@@ -58,7 +58,7 @@ function SignPage({
                 value={formValue.password || ""}
                 onChange={onChange}
                 required
-                minLength="2"
+                minLength="6"
                 maxLength="40"
               />
               <span className="sign__input-error password-error">

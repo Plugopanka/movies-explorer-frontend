@@ -47,6 +47,8 @@ function SavedMovies({
       setFilteredMovies(isShort ? filterShortMovies(moviesList) : moviesList);
       movie.length === 0 ? setErrorText("Ничего не найдено") : setErrorText("");
     } else {
+      localStorage.setItem("filteredSavedMovies", JSON.stringify([]));
+      setFilteredMovies([]);
       setErrorText("Нет сохраненных фильмов");
     }
   }
@@ -131,24 +133,24 @@ function SavedMovies({
     }
   }, [isShort]);
 
-  useEffect(() => {
-    // const movies = JSON.parse(localStorage.getItem("filteredSavedMovies"));
-    // setFilteredMovies(movies);
-    // console.log(filteredMovies);
-    setSavedMovies(JSON.parse(localStorage.getItem("allSavedMovies")));
-    if (filteredMovies && filteredMovies.length !== 0) {
-      // const movies = JSON.parse(localStorage.getItem("filteredSavedMovies"));
-      setFilteredMovies(
-        isShort ? filterShortMovies(filteredMovies) : filteredMovies
-      );
-      setErrorText("");
-    } else if (savedMovies && savedMovies.length !== 0) {
-      setFilteredMovies(savedMovies);
-      setErrorText("");
-    } else {
-      setErrorText("Нет сохраненных фильмов");
-    }
-  }, []);
+  // useEffect(() => {
+  //   // const movies = JSON.parse(localStorage.getItem("filteredSavedMovies"));
+  //   // setFilteredMovies(movies);
+  //   console.log(filteredMovies);
+  //   setSavedMovies(JSON.parse(localStorage.getItem("allSavedMovies")));
+  //   if (filteredMovies && filteredMovies.length !== 0) {
+  //     // const movies = JSON.parse(localStorage.getItem("filteredSavedMovies"));
+  //     setFilteredMovies(
+  //       isShort ? filterShortMovies(filteredMovies) : filteredMovies
+  //     );
+  //     setErrorText("");
+  //   } else if (savedMovies && savedMovies.length !== 0) {
+  //     setFilteredMovies(savedMovies);
+  //     setErrorText("");
+  //   } else {
+  //     setErrorText("Нет сохраненных фильмов");
+  //   }
+  // }, []);
 
   return (
     <>
@@ -168,7 +170,7 @@ function SavedMovies({
           errorText={errorUserText}
         />
         <MoviesCardList
-          movies={JSON.parse(localStorage.getItem("filteredSavedMovies"))}
+          movies={filteredMovies}
           errorText={errorText}
           handleMovieDelete={handleMovieDelete}
           savedMovies={savedMovies}
