@@ -125,6 +125,13 @@
   }
 }
 
+@media screen and (max-width: 761px) {
+  .movies-card__button {
+    opacity: 1;
+    z-index: 0;
+  }
+}
+
 @media screen and (max-width: 425px) {
   .movies-card {
     row-gap: 16px;

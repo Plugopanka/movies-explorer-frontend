@@ -32,7 +32,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
   const [isSucceed, setIsSucceed] = useState(false);
-  const [errorText, setErrorText] = useState("");
+  const [loginErrorText, setLoginErrorText] = useState("");
+  const [registrationErrorText, setRegistrationErrorText] = useState("");
   const [apiErrorText, setApiErrorText] = useState("");
 
   function closePopup() {
@@ -99,15 +100,15 @@ function App() {
       .then((data) => localStorage.setItem("jwt", data.token))
       .then(() => {
         setIsLoggedIn(true);
-        setErrorText("");
+        setLoginErrorText("");
         navigate("/movies", { replace: true });
       })
       .catch((err) => {
         console.log(`Ошибка загрузки ${err}`);
         if (err.includes(401)) {
-          setErrorText("Неверный логин или пароль");
+          setLoginErrorText("Неверный логин или пароль");
         } else {
-          setErrorText("При авторизации произошла ошибка");
+          setLoginErrorText("При авторизации произошла ошибка");
         }
       });
   }
@@ -116,15 +117,15 @@ function App() {
     auth
       .register(name, email, password)
       .then(() => {
-        setErrorText("");
+        setRegistrationErrorText("");
         handleLogin({ email, password });
       })
       .catch((err) => {
         console.log(`Ошибка загрузки ${err}`);
         if (err.includes(409)) {
-          setErrorText("Пользователь с таким email уже существует");
+          setRegistrationErrorText("Пользователь с таким email уже существует");
         } else {
-          setErrorText("При регистрации произошла ошибка");
+          setRegistrationErrorText("При регистрации произошла ошибка");
         }
       });
   }
@@ -254,7 +255,7 @@ function App() {
                 path="/signin"
                 element={
                   !isLoggedIn ? (
-                    <Login handleLogin={handleLogin} errorText={errorText} />
+                    <Login handleLogin={handleLogin} errorText={loginErrorText} />
                   ) : (
                     <Main
                       isLoggedIn={isLoggedIn}
@@ -270,7 +271,7 @@ function App() {
                   !isLoggedIn ? (
                     <Register
                       handleRegister={handleRegister}
-                      errorText={errorText}
+                      errorText={registrationErrorText}
                     />
                   ) : (
                     <Main

@@ -25,6 +25,10 @@
     justify-content: center;
     z-index: 2;
   }
+
+  .burger_close {
+    margin: 14px 14px 0 0;
+  }
 }
 
 @media screen and (max-width: 425px) {

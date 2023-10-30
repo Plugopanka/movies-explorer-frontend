@@ -33,7 +33,7 @@ function MoviesCardList({
 
   useEffect(() => {
     showDefaultMovies();
-  }, [display]);
+  }, [display, movies]);
 
   function addMoreMovies() {
     if (display > MIN_LAPTOP_DISPLAY) {

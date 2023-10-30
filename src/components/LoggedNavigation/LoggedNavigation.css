@@ -63,6 +63,7 @@
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.3);
     justify-content: flex-end;
+    align-items: flex-start;
     transition: 0.2s;
     z-index: 1;
   }
@@ -77,6 +78,7 @@
     height: 100vh;
     width: 68%;
     background-color: #202020;
+    z-index: 2;
   }
 
   .loggedNav__list_opened {
@@ -96,6 +98,7 @@
     font-size: 18px;
     font-weight: 500;
     line-height: 1.2;
+    z-index: 3;
   }
 
   .active {
