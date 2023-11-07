@@ -83,16 +83,22 @@
 }
 
 .sign__input:focus {
-  outline: 1px solid #3DDC84;
+  outline: 1px solid #3ddc84;
+}
+
+.sign__input:focus:invalid {
+  outline: 1px solid #ee3465;
 }
 
 .sign__input::placeholder {
   color: #8b8b8b;
 }
 
+.sign__input:invalid {
+  color: #ee3465;
+}
+
 .sign__input-error {
-  display: none;
-  visibility: hidden;
   color: #ee3465;
   font-size: 10px;
   font-style: normal;
@@ -100,9 +106,13 @@
   line-height: 1.2;
 }
 
-.password-error {
-  display: block;
-  visibility: visible;
+.sign__base-error {
+  color: #8b8b8b;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  padding-bottom: 5px;
 }
 
 .sign__button-container {
@@ -131,6 +141,12 @@
   opacity: 0.8;
 }
 
+.sign__button_disabled {
+  cursor: default;
+  color: #C2C2C2;
+  background: #F8F8F8;
+}
+
 .sign__link-text {
   text-align: center;
   margin: 16px 0 0;
@@ -145,7 +161,6 @@
   .sign__form {
     width: 260px;
     align-items: center;
-    
   }
 
   .sign__logo {
